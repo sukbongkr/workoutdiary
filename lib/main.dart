@@ -130,19 +130,17 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: body,
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: selectedIndex,
-          destinations: const [
-            NavigationDestination(label: '운동하기', icon: Icon(IconlyLight.home)),
-            NavigationDestination(
-                label: '오늘의기록', icon: Icon(IconlyLight.setting)),
-            NavigationDestination(label: '통계', icon: Icon(IconlyLight.setting)),
-          ],
-          onDestinationSelected: onDestinationSelected,
-        ),
+    return Scaffold(
+      body: body,
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: selectedIndex,
+        destinations: const [
+          NavigationDestination(label: '운동하기', icon: Icon(IconlyLight.home)),
+          NavigationDestination(
+              label: '오늘의기록', icon: Icon(IconlyLight.setting)),
+          NavigationDestination(label: '통계', icon: Icon(IconlyLight.setting)),
+        ],
+        onDestinationSelected: onDestinationSelected,
       ),
     );
   }
