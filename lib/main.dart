@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:iconly/iconly.dart';
-import 'package:workoutdiary/pages/exercise/routineSelect.dart';
+import 'package:workoutdiary/pages/exercise/routine_select.dart';
 import 'package:workoutdiary/pages/stat/page.dart';
 import 'package:workoutdiary/pages/today/page.dart';
 
@@ -73,7 +74,7 @@ final goRouter = GoRouter(
 void main() {
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -129,17 +130,19 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: body,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selectedIndex,
-        destinations: const [
-          NavigationDestination(label: '운동하기', icon: Icon(IconlyLight.home)),
-          NavigationDestination(
-              label: '오늘의기록', icon: Icon(IconlyLight.setting)),
-          NavigationDestination(label: '통계', icon: Icon(IconlyLight.setting)),
-        ],
-        onDestinationSelected: onDestinationSelected,
+    return SafeArea(
+      child: Scaffold(
+        body: body,
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: selectedIndex,
+          destinations: const [
+            NavigationDestination(label: '운동하기', icon: Icon(IconlyLight.home)),
+            NavigationDestination(
+                label: '오늘의기록', icon: Icon(IconlyLight.setting)),
+            NavigationDestination(label: '통계', icon: Icon(IconlyLight.setting)),
+          ],
+          onDestinationSelected: onDestinationSelected,
+        ),
       ),
     );
   }
