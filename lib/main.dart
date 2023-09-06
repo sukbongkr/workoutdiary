@@ -3,8 +3,9 @@ import 'package:go_router/go_router.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:iconly/iconly.dart';
-import 'package:workoutdiary/pages/main/page.dart';
+import 'package:workoutdiary/pages/exercise/routineSelect.dart';
 import 'package:workoutdiary/pages/stat/page.dart';
+import 'package:workoutdiary/pages/today/page.dart';
 
 // private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -14,15 +15,9 @@ final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'shellC');
 
 final goRouter = GoRouter(
   initialLocation: '/',
-  // * Passing a navigatorKey causes an issue on hot reload:
-  // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
-  // * However it's still necessary otherwise the navigator pops back to
-  // * root on hot reload
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
-    // Stateful navigation based on:
-    // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
@@ -33,33 +28,22 @@ final goRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: RootScreen(detailsPath: '/details'),
-              ),
-              routes: [
-                GoRoute(
-                  path: 'details',
-                  builder: (context, state) => const DetailsScreen(label: 'A'),
-                ),
-              ],
+              builder: (context, state) => const ExercisePage(),
+              // routes: [
+              //   GoRoute(
+              //     path: 'details',
+              //     builder: (context, state) => const todo(label: 'A'),
+              //   ),
+              // ],
             ),
           ],
         ),
         StatefulShellBranch(
           navigatorKey: _shellNavigatorBKey,
           routes: [
-            // Shopping Cart
             GoRoute(
-              path: '/b',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: RootScreen(detailsPath: '/b/details'),
-              ),
-              routes: [
-                GoRoute(
-                  path: 'details',
-                  builder: (context, state) => const DetailsScreen(label: 'B'),
-                ),
-              ],
+              path: '/today',
+              builder: (context, state) => const TodayPage(),
             ),
           ],
         ),
@@ -68,16 +52,16 @@ final goRouter = GoRouter(
           routes: [
             // Shopping Cart
             GoRoute(
-              path: '/c',
+              path: '/stat',
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: RootScreen(detailsPath: '/b/details'),
+                child: StatPage(),
               ),
-              routes: [
-                GoRoute(
-                  path: 'details',
-                  builder: (context, state) => const DetailsScreen(label: 'B'),
-                ),
-              ],
+              // routes: [
+              //   GoRoute(
+              //     path: 'details',
+              //     builder: (context, state) => const DetailsScreen(label: 'B'),
+              //   ),
+              // ],
             ),
           ],
         ),
@@ -105,8 +89,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Stateful navigation based on:
-// https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 class ScaffoldWithNestedNavigation extends StatelessWidget {
   const ScaffoldWithNestedNavigation({
     Key? key,
@@ -118,10 +100,6 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   void _goBranch(int index) {
     navigationShell.goBranch(
       index,
-      // A common pattern when using bottom navigation bars is to support
-      // navigating to the initial location when tapping the item that is
-      // already active. This example demonstrates how to support this behavior,
-      // using the initialLocation parameter of goBranch.
       initialLocation: index == navigationShell.currentIndex,
     );
   }
