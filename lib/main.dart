@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:iconly/iconly.dart';
 import 'package:workoutdiary/pages/exercise/routine_select.dart';
+import 'package:workoutdiary/pages/exercise/workout.dart';
 import 'package:workoutdiary/pages/stat/page.dart';
 import 'package:workoutdiary/pages/today/page.dart';
 
@@ -29,13 +30,16 @@ final goRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/',
-              builder: (context, state) => const ExercisePage(),
-              // routes: [
-              //   GoRoute(
-              //     path: 'details',
-              //     builder: (context, state) => const todo(label: 'A'),
-              //   ),
-              // ],
+              builder: (context, state) => const RoutineSelect(),
+              routes: [
+                GoRoute(
+                  path: 'workout/:id',
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
+                    return WorkoutPage(id: id);
+                  },
+                ),
+              ],
             ),
           ],
         ),
