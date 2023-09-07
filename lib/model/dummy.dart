@@ -33,7 +33,7 @@ List<Routine> routines = [
       id: 1,
       name: 'Chest Day',
       description: 'Routine for chest',
-      exerciseIds: [1, 4]),
+      exerciseIds: [1, 2, 3, 4]),
   Routine(
       id: 2,
       name: 'Leg Day',

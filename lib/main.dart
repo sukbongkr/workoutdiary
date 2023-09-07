@@ -4,10 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:iconly/iconly.dart';
-import 'package:workoutdiary/pages/exercise/routine_select.dart';
-import 'package:workoutdiary/pages/exercise/workout.dart';
-import 'package:workoutdiary/pages/stat/page.dart';
-import 'package:workoutdiary/pages/today/page.dart';
+
+import 'pages/exercise/routine_select.dart';
+import 'pages/exercise/workout.dart';
+import 'pages/stat/page.dart';
+import 'pages/today/page.dart';
+import 'pages/exercise/exercise.dart';
 
 // private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -33,12 +35,20 @@ final goRouter = GoRouter(
               builder: (context, state) => const RoutineSelect(),
               routes: [
                 GoRoute(
-                  path: 'workout/:id',
-                  builder: (context, state) {
-                    final id = state.pathParameters['id']!;
-                    return WorkoutPage(id: id);
-                  },
-                ),
+                    path: 'workout/:wid',
+                    builder: (context, state) {
+                      final wid = state.pathParameters['wid']!;
+                      return WorkoutPage(id: wid);
+                    },
+                    routes: [
+                      GoRoute(
+                        path: ':eid',
+                        builder: (context, state) {
+                          final eid = state.pathParameters['eid']!;
+                          return ExercisePage(id: eid);
+                        },
+                      ),
+                    ]),
               ],
             ),
           ],
